@@ -28,16 +28,20 @@ int score[2] = { 0,0 };
 
 void reset() {
 	// Update score text
-	text.setString(score[0] + " : " + score[1]);
+	text.setString(to_string(score[0]) + " :");
 	// Keep score text centered 
-	text.setPosition((gameWidth * 0.5f) - (text.getLocalBounds().width * 0.5f), 0);
+	text.setPosition((gameWidth * 0.5f) - (text.getLocalBounds().width), 20);
+	// Complete score text
+	text.setString(text.getString() + " " + to_string(score[1]));
 	// Reset paddle position
 	paddles[0].setPosition(10 + paddleSize.x / 2.0f, gameHeight / 2.0f);
-	paddles[1].setPosition(gameWidth - (10 + paddleSize.x / 2.0f) / 2.0f, gameHeight / 2.0f);
+	paddles[1].setPosition(gameWidth - (10 + paddleSize.x / 2.0f), gameHeight / 2.0f);
 	// Reset ball position
 	ball.setPosition(gameWidth / 2.0f, gameHeight / 2.0f);
 	// Set ball velocity
 	ballVelocity = { (server ? 100.0f : -100.0f), 60.0f };
+	// Swap server
+	server = !server;
 }
 
 void Load() {
@@ -47,6 +51,7 @@ void Load() {
 	text.setFont(font);
 	// Set the character size to 24 pixels
 	text.setCharacterSize(24);
+	text.setColor(Color::White);
 	// Set size and origin of paddles 
 	for (RectangleShape &p : paddles) {
 		p.setSize(paddleSize - Vector2f(3, 3));
@@ -122,10 +127,12 @@ void Update(RenderWindow &window) {
 	}
 	else if (bx > gameWidth) {
 		// Right wall
+		score[0]++;
 		reset();
 	}
 	else if (bx < 0) {
 		// Left wall
+		score[1]++;
 		reset();
 	}
 	else if (
@@ -170,6 +177,7 @@ void Render(RenderWindow &window) {
 	window.draw(paddles[0]);
 	window.draw(paddles[1]);
 	window.draw(ball);
+	window.draw(text);
 }
 
 int main() {
