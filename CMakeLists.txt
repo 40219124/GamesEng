@@ -15,7 +15,11 @@ set(SFML_INCS "lib/sfml/include")
 link_directories("${CMAKE_BINARY_DIR}/lib/sfml/lib")
 
 #### Copy res(ource) folder ####
-file(COPY res DESTINATION ${CMAKE_BINARY_DIR})
+add_custom_target(copy_resources ALL COMMAND ${CMAKE_COMMAND}
+	-E copy_directory
+		"${PROJECT_SOURCE_DIR}/res"
+		${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIGURATION>/res
+)
 
 #### Practical 1 - Pong ####
 file(GLOB_RECURSE SOURCES practical_1/*.cpp practical_1/*.h)
@@ -28,3 +32,4 @@ file(GLOB_RECURSE SOURCES practical_2/*.cpp practical_2/*.h)
 add_executable(PRACTICAL_2_INVADERS ${SOURCES})
 target_include_directories(PRACTICAL_2_INVADERS SYSTEM PRIVATE ${SFML_INCS})
 target_link_libraries(PRACTICAL_2_INVADERS sfml-graphics)
+add_dependencies(PRACTICAL_2_INVADERS copy_resources)
