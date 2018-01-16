@@ -1,16 +1,25 @@
 #include <SFML/Graphics.hpp>
+#include <iostream>
+#include "Ship.h"
 
 using namespace sf;
 using namespace std;
 
-const int gameWidth = 800;
-const int gameHeight = 600;
+sf::Texture spritesheet;
+sf::Sprite invader;
+
+vector<Ship *> ships;
 
 void Reset() {
 
 }
 
 void Load() {
+	if (!spritesheet.loadFromFile("res/img/invaders_sheet.png")) {
+		cerr << "Failed to load spritesheet!" << endl;
+	}
+	invader.setTexture(spritesheet);
+	invader.setTextureRect(sf::IntRect(0, 0, 32, 32));
 	Reset();
 }
 
@@ -33,7 +42,7 @@ void Update(RenderWindow &window) {
 }
 
 void Render(RenderWindow &window) {
-
+	window.draw(invader);
 }
 
 int main() {
