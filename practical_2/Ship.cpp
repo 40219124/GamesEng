@@ -1,4 +1,5 @@
 #include "Ship.h"
+#include "Game.h"
 
 using namespace sf;
 using namespace std;
