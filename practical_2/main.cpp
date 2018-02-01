@@ -19,11 +19,21 @@ void Load() {
 	if (!spritesheet.loadFromFile("res/img/invaders_sheet.png")) {
 		cerr << "Failed to load spritesheet!" << endl;
 	}
-	invader.setTexture(spritesheet);
-	invader.setTextureRect(sf::IntRect(0, 0, 32, 32));
+	/*Invader* inv = new Invader(sf::IntRect(0, 0, 32, 32), { 100,100 });
+	ships.push_back(inv);*/
+	Player* player = new Player();
+	player->setPosition({ 0.0f, /*gameHeight - 5*/0.0f });
+	ships.push_back(player);
 
-	Invader* inv = new Invader(sf::IntRect(0, 0, 32, 32), { 100,100 });
-	ships.push_back(inv);
+	for (int r = 0; r < invaders_rows; ++r) {
+		IntRect rect = IntRect(32 * (r < 6 ? r : 0), 0, 32, 32);
+		for (int c = 0; c < invaders_columns; ++c) {
+			Vector2f position = { 21 + 40.0f * c, 21 + 40.0f * r };
+			Invader* inv = new Invader(rect, position);
+			ships.push_back(inv);
+		}
+	}
+
 	Reset();
 }
 
