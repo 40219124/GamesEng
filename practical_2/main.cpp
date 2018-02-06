@@ -22,7 +22,6 @@ void Load() {
 	/*Invader* inv = new Invader(sf::IntRect(0, 0, 32, 32), { 100,100 });
 	ships.push_back(inv);*/
 	Player* player = new Player();
-	player->setPosition({ 0.0f, /*gameHeight - 5*/0.0f });
 	ships.push_back(player);
 
 	for (int r = 0; r < invaders_rows; ++r) {

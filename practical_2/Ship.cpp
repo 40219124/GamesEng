@@ -44,25 +44,27 @@ void Invader::Update(const float &dt) {
 
 /*    Player    */
 Player::Player() : Ship(IntRect(160, 32, 32, 32)) {
-	setPosition({ gameHeight * 0.5f, gameHeight - 32.0f });
+	setPosition({ gameWidth * 0.5f, gameHeight - 32.0f });
 }
 
 void Player::Update(const float &dt) {
 	Ship::Update(dt);
-	float speed = 128.0f;
+	float speed = 248.0f;
 	// Move left
 	if (Keyboard::isKeyPressed(Keyboard::A)) {
 		float distance = -speed * dt;
-		if ((distance + this->getPosition().x) < 16) {
-			distance = -(this->getPosition().x - 16);
+		int spriteWidth = 0;
+		if ((distance + this->getPosition().x) < spriteWidth) {
+			distance = -(this->getPosition().x - spriteWidth);
 		}
 		move({ distance, 0.0f });
 	}
 	// Move right
 	if (Keyboard::isKeyPressed(Keyboard::D)) {
 		float distance = speed * dt;
-		if ((distance + this->getPosition().x) > (gameWidth - 16)) {
-			distance = ((gameWidth - 16) - this->getPosition().x);
+		int spriteWidth = 32;
+		if ((distance + this->getPosition().x) > (gameWidth - spriteWidth)) {
+			distance = ((gameWidth - spriteWidth) - this->getPosition().x);
 		}
 		move({ distance, 0.0f });
 	}
