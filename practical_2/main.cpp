@@ -9,7 +9,7 @@ using namespace std;
 sf::Texture spritesheet;
 sf::Sprite invader;
 
-vector<Ship *> ships;
+vector<Ship*> ships;
 
 void Reset() {
 

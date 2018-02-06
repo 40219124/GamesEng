@@ -5,8 +5,11 @@ class Ship : public sf::Sprite {
 protected:
 	sf::IntRect _sprite;
 	Ship();
+	bool _exploded = false;
 
 public:
+	bool isExploded() { return _exploded; }
+	void Explode();
 	explicit Ship(sf::IntRect ir);
 	virtual ~Ship() = 0;
 	virtual void Update(const float &dt);

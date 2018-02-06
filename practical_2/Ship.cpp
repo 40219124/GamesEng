@@ -1,5 +1,6 @@
 #include "Ship.h"
 #include "Game.h"
+#include "Bullet.h"
 
 using namespace sf;
 using namespace std;
@@ -16,6 +17,10 @@ Ship::Ship(IntRect ir) : Sprite() {
 void Ship::Update(const float &dt) {}
 
 Ship::~Ship() = default;
+
+void Ship::Explode() {
+	_exploded = true;
+}
 
 /*  Invader  */
 
@@ -48,6 +53,7 @@ Player::Player() : Ship(IntRect(160, 32, 32, 32)) {
 }
 
 void Player::Update(const float &dt) {
+	static vector<Bullet*> bullets;
 	Ship::Update(dt);
 	float speed = 248.0f;
 	// Move left
@@ -67,5 +73,13 @@ void Player::Update(const float &dt) {
 			distance = ((gameWidth - spriteWidth) - this->getPosition().x);
 		}
 		move({ distance, 0.0f });
+	}
+
+	if (Keyboard::isKeyPressed(Keyboard::Space)) {
+		// Bullet spawn
+		bullets.push_back(new Bullet(getPosition(), false));
+	}
+	for (Bullet *const b : bullets) {
+		b->Update(dt);
 	}
 }
