@@ -20,6 +20,7 @@ Ship::~Ship() = default;
 
 void Ship::Explode() {
 	_exploded = true;
+	setTextureRect(IntRect(32 * 4, 32, 32, 32));
 }
 
 /*  Invader  */
@@ -77,7 +78,7 @@ void Player::Update(const float &dt) {
 
 	if (Keyboard::isKeyPressed(Keyboard::Space)) {
 		// Bullet spawn
-		bullets.push_back(new Bullet(getPosition(), false));
+		Bullet::Fire(getPosition(), false);
 	}
 	for (Bullet *const b : bullets) {
 		b->Update(dt);

@@ -4,9 +4,7 @@
 using namespace sf;
 using namespace std;
 
-
-Bullet::Bullet(const Vector2f &pos, const bool mode) {
-}
+Bullet Bullet::bullets[256];
 
 Bullet::Bullet() {
 	setPosition(Vector2f(0.0f, 0.0f));
@@ -21,7 +19,15 @@ Bullet::Bullet() {
 }
 
 void Bullet::Update(const float &dt) {
-	_Update(dt);
+	for (Bullet &b : bullets) {
+		b._Update(dt);
+	}
+}
+
+void Bullet::Render(sf::RenderWindow &window) {
+	for (const Bullet &b : bullets) {
+		window.draw(b);
+	}
 }
 
 void Bullet::_Update(const float &dt) {
@@ -33,7 +39,7 @@ void Bullet::_Update(const float &dt) {
 			move(0.0f, dt * 200.0f * (_mode ? 1.0f : -1.0f));
 			const FloatRect boundingBox = getGlobalBounds();
 
-			for (auto s : ships) {
+			for (Ship *s : ships) {
 				if (!_mode && s == ships[0]) {
 					continue;
 				}
@@ -43,7 +49,7 @@ void Bullet::_Update(const float &dt) {
 				if (!s->isExploded() && s->getGlobalBounds().intersects(boundingBox)) {
 					s->Explode();
 					setPosition(-111, -111);
-					_active = false; 
+					_active = false;
 					return;
 				}
 			}
