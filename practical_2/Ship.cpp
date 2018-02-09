@@ -36,14 +36,33 @@ Invader::Invader(sf::IntRect ir, sf::Vector2f pos) : Ship(ir) {
 }
 
 void Invader::Update(const float &dt) {
-	Ship::Update(dt);
+	if (!isExploded()) {
+		Ship::Update(dt);
 
-	move(dt * (goRight ? 1.0f : -1.0f) * speed, 0);
+		move(dt * (goRight ? 1.0f : -1.0f) * speed, 0);
 
-	if (goRight && getPosition().x > (gameWidth - 16) || (!goRight && getPosition().x < 16)) {
-		goRight = !goRight;
-		for (int i = 1; i < ships.size(); ++i) {
-			ships[i]->move(0, 24);
+		if (goRight && getPosition().x > (gameWidth - 16) || (!goRight && getPosition().x < 16)) {
+			goRight = !goRight;
+			for (int i = 1; i < ships.size(); ++i) {
+				ships[i]->move(0, 24);
+			}
+		}
+
+		static int random;
+		static int seed = rand();
+		seed = (seed * 23 + 1) % INT16_MAX;
+		srand(seed);
+		random = rand() % 100 + 1;
+
+		static float cd = 0.0f;
+		if (cd > 0.0f) {
+			cd -= dt;
+		}
+
+		if (/*cd <= 0.0f && */random <= 4) {
+			// Bullet spawn
+			Bullet::Fire(getPosition(), true);
+			cd += 1.0f;
 		}
 	}
 }
@@ -75,10 +94,14 @@ void Player::Update(const float &dt) {
 		}
 		move({ distance, 0.0f });
 	}
-
-	if (Keyboard::isKeyPressed(Keyboard::Space)) {
+	static float cd = 0.5f;
+	if (cd > 0.0f) {
+		cd -= dt;
+	}
+	if (Keyboard::isKeyPressed(Keyboard::Space) && cd <= 0.0f) {
 		// Bullet spawn
 		Bullet::Fire(getPosition(), false);
+		cd += 0.5f;
 	}
 	for (Bullet *const b : bullets) {
 		b->Update(dt);

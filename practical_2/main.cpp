@@ -57,6 +57,8 @@ void Update(RenderWindow &window) {
 	for (Ship* s : ships) {
 		s->Update(dt);
 	}
+
+	Bullet::Update(dt);
 }
 
 void Render(RenderWindow &window) {
