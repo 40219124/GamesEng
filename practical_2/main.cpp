@@ -2,6 +2,7 @@
 #include <iostream>
 #include "Ship.h"
 #include "Game.h"
+#include "Bullet.h"
 
 using namespace sf;
 using namespace std;
@@ -63,6 +64,8 @@ void Render(RenderWindow &window) {
 	for (const Ship* s : ships) {
 		window.draw(*s);
 	}
+	Bullet::Render(window);
+	
 }
 
 int main() {
