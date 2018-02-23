@@ -42,3 +42,14 @@ set_target_properties(PRACTICAL_2_INVADERS PROPERTIES
 	${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$(Configuration)
 )
 add_dependencies(PRACTICAL_2_INVADERS copy_resources)
+
+#### Practical 3 - Tile Engine####
+file(GLOB_RECURSE SOURCES practical_3/*.cpp practical_3/*.h)
+add_executable(PRACTICAL_3_TILE ${SOURCES})
+target_include_directories(PRACTICAL_3_TILE SYSTEM PRIVATE ${SFML_INCS})
+target_link_libraries(PRACTICAL_3_TILE sfml-graphics)
+set_target_properties(PRACTICAL_3_TILE PROPERTIES 
+	VS_DEBUGGER_WORKING_DIRECTORY
+	${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$(Configuration)
+)
+add_dependencies(PRACTICAL_3_TILE copy_resources)
