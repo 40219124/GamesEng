@@ -44,14 +44,16 @@ void Invader::Update(const float &dt) {
 		if (goRight && getPosition().x > (gameWidth - 16) || (!goRight && getPosition().x < 16)) {
 			goRight = !goRight;
 			for (int i = 1; i < ships.size(); ++i) {
-				ships[i]->move(0, 24);
+				if (!ships[i]->isExploded()) {
+					ships[i]->move(0, 24);
+				}
 			}
 		}
 
 		static int random;
-		static int seed = rand();
-		seed = (seed * 23 + 1) % INT16_MAX;
-		srand(seed);
+		/*static int seed = rand();*/
+		//seed = (seed * 23 + 1) % INT16_MAX;
+		//srand(seed);
 		random = rand() % 100 + 1;
 
 		static float cd = 0.0f;
@@ -59,10 +61,10 @@ void Invader::Update(const float &dt) {
 			cd -= dt;
 		}
 
-		if (/*cd <= 0.0f && */random <= 4) {
+		if (cd <= 0.0f && random <= 1) {
 			// Bullet spawn
 			Bullet::Fire(getPosition(), true);
-			cd += 1.0f;
+			cd += 10.0f;
 		}
 	}
 }
@@ -73,37 +75,39 @@ Player::Player() : Ship(IntRect(160, 32, 32, 32)) {
 }
 
 void Player::Update(const float &dt) {
-	static vector<Bullet*> bullets;
-	Ship::Update(dt);
-	float speed = 248.0f;
-	// Move left
-	if (Keyboard::isKeyPressed(Keyboard::A)) {
-		float distance = -speed * dt;
-		int spriteWidth = 0;
-		if ((distance + this->getPosition().x) < spriteWidth) {
-			distance = -(this->getPosition().x - spriteWidth);
+	if (!isExploded()) {
+		static vector<Bullet*> bullets;
+		Ship::Update(dt);
+		float speed = 248.0f;
+		// Move left
+		if (Keyboard::isKeyPressed(Keyboard::A)) {
+			float distance = -speed * dt;
+			int spriteWidth = 0;
+			if ((distance + this->getPosition().x) < spriteWidth) {
+				distance = -(this->getPosition().x - spriteWidth);
+			}
+			move({ distance, 0.0f });
 		}
-		move({ distance, 0.0f });
-	}
-	// Move right
-	if (Keyboard::isKeyPressed(Keyboard::D)) {
-		float distance = speed * dt;
-		int spriteWidth = 32;
-		if ((distance + this->getPosition().x) > (gameWidth - spriteWidth)) {
-			distance = ((gameWidth - spriteWidth) - this->getPosition().x);
+		// Move right
+		if (Keyboard::isKeyPressed(Keyboard::D)) {
+			float distance = speed * dt;
+			int spriteWidth = 32;
+			if ((distance + this->getPosition().x) > (gameWidth - spriteWidth)) {
+				distance = ((gameWidth - spriteWidth) - this->getPosition().x);
+			}
+			move({ distance, 0.0f });
 		}
-		move({ distance, 0.0f });
-	}
-	static float cd = 0.5f;
-	if (cd > 0.0f) {
-		cd -= dt;
-	}
-	if (Keyboard::isKeyPressed(Keyboard::Space) && cd <= 0.0f) {
-		// Bullet spawn
-		Bullet::Fire(getPosition(), false);
-		cd += 0.5f;
-	}
-	for (Bullet *const b : bullets) {
-		b->Update(dt);
+		static float cd = 0.5f;
+		if (cd > 0.0f) {
+			cd -= dt;
+		}
+		if (Keyboard::isKeyPressed(Keyboard::Space) && cd <= 0.0f) {
+			// Bullet spawn
+			Bullet::Fire(getPosition(), false);
+			cd += 0.5f;
+		}
+		for (Bullet *const b : bullets) {
+			b->Update(dt);
+		}
 	}
 }

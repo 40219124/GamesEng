@@ -26,7 +26,9 @@ void Bullet::Update(const float &dt) {
 
 void Bullet::Render(sf::RenderWindow &window) {
 	for (const Bullet &b : bullets) {
-		window.draw(b);
+		if (b._active) {
+			window.draw(b);
+		}
 	}
 }
 
@@ -65,10 +67,10 @@ void Bullet::Fire(const sf::Vector2f &pos, const bool mode) {
 			b._mode = mode;
 			b.setTexture(spritesheet);
 			if (b._mode) {
-				b.setTextureRect(IntRect(32, 32, 32, 32));
+				b.setTextureRect(IntRect(32 + 12, 32 + 9 + 10, 8, -10));
 			}
 			else {
-				b.setTextureRect(IntRect(64, 32, 32, 32));
+				b.setTextureRect(IntRect(64 + 12, 32 + 9, 8, 10));
 			}
 			break;
 		}
