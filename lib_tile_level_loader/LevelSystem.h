@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "maths.h"
 #include <fstream>
 #include <memory>
 #include <vector>
@@ -22,6 +23,8 @@ public:
 	static sf::Vector2f getTilePosition(sf::Vector2ul);
 	// Get the tile at screenspace pos
 	static TILE getTileAt(sf::Vector2f);
+	static size_t getWidth() { return _width; }
+	static size_t getHeight() { return _height; }
 
 protected:
 	static std::unique_ptr < TILE[]> _tiles;  //Internal array of tiles

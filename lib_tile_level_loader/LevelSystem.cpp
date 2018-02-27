@@ -1,21 +1,23 @@
 #include "LevelSystem.h"
+#include "maths.h"
 #include <iostream>
+#include <string>
 
 using namespace std;
-//using namespace sf;
+using namespace sf;
 
 unique_ptr<LevelSystem::TILE[]> LevelSystem::_tiles;
 size_t LevelSystem::_width;
 size_t LevelSystem::_height;
-Vector2f LevelSystem::_offset(0.0f, 30.0f);
+Vector2f LevelSystem::_offset(Vector2f(0.0f, 30.0f));
 
 float LevelSystem::_tileSize(100.0f);
-vector<unique_ptr<RectangleShape>> Level_System::_sprites;
+vector<unique_ptr<RectangleShape>> LevelSystem::_sprites;
 
-std::map<LevelSystem::TILE, Color> LevelSystem::_colors{
+map<LevelSystem::TILE, Color> LevelSystem::_colors{
 	{WALL, Color::White}, {END, Color::Red} };
 
-sf::Color LevelSystem::getColor(LevelSystem::TILE t) {
+Color LevelSystem::getColor(LevelSystem::TILE t) {
 	auto it = _colors.find(t);
 	if (it == _colors.end()) {
 		_colors[t] = Color::Transparent;
@@ -25,6 +27,7 @@ sf::Color LevelSystem::getColor(LevelSystem::TILE t) {
 
 void LevelSystem::setColor(LevelSystem::TILE t, Color c) {
 	// set colour
+	_colors.insert_or_assign(t, c);
 }
 
 void LevelSystem::loadLevelFile(const string& path, float tileSize) {
@@ -92,7 +95,7 @@ void LevelSystem::buildSprites() {
 	_sprites.clear();
 	for (size_t y = 0; y < ls::_height; ++y) {
 		for (size_t x = 0; x < ls::_width; ++x) {
-			auto s = make_unique<sf::RectangleShape>();
+			auto s = make_unique<RectangleShape>();
 			s->setPosition(getTilePosition({ x, y }));
 			s->setSize(Vector2f(_tileSize, _tileSize));
 			s->setFillColor(getColor(getTile({ x, y })));
@@ -101,8 +104,15 @@ void LevelSystem::buildSprites() {
 	}
 }
 
-sf::Vector2f LevelSystem::getTilePosition(sf::Vector2ul p) {
+Vector2f LevelSystem::getTilePosition(Vector2ul p) {
 	return (Vector2f(p.x, p.y) * _tileSize);
+}
+
+LevelSystem::TILE LevelSystem::getTile(Vector2ul p) {
+	if (p.x > _width || p.y > _height) {
+		throw string("Tile out of range: ") + to_string(p.x) + "," + to_string(p.y) + ")";
+	}
+	return _tiles[(p.y * _width) + p.x];
 }
 
 LevelSystem::TILE LevelSystem::getTileAt(Vector2f v) {
