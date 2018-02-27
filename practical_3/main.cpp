@@ -1,6 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include <levelsystem.h>
+#include "LevelSystem.h"
 #include "Entity.h"
 #include "Player.h"
 
@@ -35,6 +35,7 @@ void Update(RenderWindow &window){
 
 void Render(RenderWindow &window){
 	player.Render(window);
+	ls::Render(window);
 }
 
 int main() {

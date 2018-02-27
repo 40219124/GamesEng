@@ -1,9 +1,10 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <fstream>
 #include <memory>
-#include <string>
 #include <vector>
+#include <map>
 
 #define ls LevelSystem
 
