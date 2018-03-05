@@ -3,6 +3,12 @@
 #include<SFML/Graphics.hpp>
 #include<memory>
 
+struct EntityManager {
+	vector<shared_ptr<Entity>> list;
+	void Update(const float dt);
+	void Render(RenderWindow &window);
+};
+
 class Entity {
 protected:
 	std::unique_ptr<sf::Shape> _shape;
