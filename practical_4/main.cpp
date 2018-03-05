@@ -3,15 +3,22 @@
 #include "LevelSystem.h"
 #include "Entity.h"
 #include "Player.h"
+#include "Ghost.h"
 
 using namespace sf;
 using namespace std;
 
-Player player;
+EntityManager em;
+vector<Entity*> ents;
 
 void Reset(){}
 
 void Load(){
+	em.list.push_back(shared_ptr<Entity>(new Player()));
+	for (int i = 0; i < 4; ++i) {
+		em.list.push_back(shared_ptr<Entity>(new Ghost()));
+		em.list[em.list.size() - 1]->setPosition(Vector2f(1000, 500));
+	}
 }
 
 void Update(RenderWindow &window){
@@ -24,12 +31,14 @@ void Update(RenderWindow &window){
 			return;
 		}
 	}
+	em.Update(dt);
 	if (Keyboard::isKeyPressed(Keyboard::Escape)) {
 		window.close();
 	}
 }
 
 void Render(RenderWindow &window){
+	em.Render(window);
 }
 
 int main() {
