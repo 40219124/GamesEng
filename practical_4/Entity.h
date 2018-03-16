@@ -3,12 +3,6 @@
 #include<SFML/Graphics.hpp>
 #include<memory>
 
-struct EntityManager {
-	vector<shared_ptr<Entity>> list;
-	void Update(const float dt);
-	void Render(RenderWindow &window);
-};
-
 class Entity {
 protected:
 	std::unique_ptr<sf::Shape> _shape;
@@ -25,4 +19,10 @@ public:
 	const sf::Vector2f getPosition();
 	void setPosition(const sf::Vector2f &pos);
 	void move(const sf::Vector2f &pos);
+};
+
+struct EntityManager {
+	std::vector<std::shared_ptr<Entity>> list;
+	void Update(const float dt);
+	void Render(sf::RenderWindow &window);
 };
