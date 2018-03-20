@@ -26,6 +26,12 @@ add_library(lib_tile_level_loader STATIC ${SOURCE_FILES})
 target_include_directories(lib_tile_level_loader INTERFACE "${CMAKE_SOURCE_DIR}/lib_tile_level_loader/" PUBLIC ${SFML_INCS})
 target_link_libraries(lib_tile_level_loader lib_maths sfml-graphics)
 
+#### Entity component model lib ####
+file(GLOB_RECURSE SOURCE_FILES lib_ecm/*.cpp lib_ecm/*.h)
+add_library(lib_ecm STATIC ${SOURCE_FILES})
+target_include_directories(lib_ecm INTERFACE "${CMAKE_SOURCE_DIR}/lib_ecm" PUBLIC ${SFML_INCS})
+target_link_libraries(lib_ecm PRIVATE lib_maths sfml-graphics)
+
 #### Copy res(ource) folder ####
 add_custom_target(copy_resources ALL COMMAND ${CMAKE_COMMAND}
 	-E copy_directory
@@ -70,7 +76,7 @@ add_dependencies(PRACTICAL_3_TILE copy_resources)
 file(GLOB_RECURSE SOURCES practical_4/*.cpp practical_4/*.h)
 add_executable(PRACTICAL_4_PACMAN ${SOURCES})
 target_include_directories(PRACTICAL_4_PACMAN SYSTEM PRIVATE ${SFML_INCS})
-target_link_libraries(PRACTICAL_4_PACMAN lib_tile_level_loader sfml-graphics)
+target_link_libraries(PRACTICAL_4_PACMAN lib_tile_level_loader sfml-graphics lib_ecm)
 set_target_properties(PRACTICAL_4_PACMAN PROPERTIES 
 	VS_DEBUGGER_WORKING_DIRECTORY
 	${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$(Configuration)
