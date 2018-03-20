@@ -29,6 +29,6 @@ Player::Player()
 	_shape->setOrigin(Vector2f(25.0f, 25.0f));
 }
 
-void Player::Render(sf::RenderWindow &window)const {
-	window.draw(*_shape);
+void Player::Render() {
+	Entity::Render();
 }

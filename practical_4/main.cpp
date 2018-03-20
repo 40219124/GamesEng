@@ -4,21 +4,28 @@
 #include "Entity.h"
 #include "Player.h"
 #include "Ghost.h"
+#include "Scene.h"
+#include "Pacman.h"
+#include "SystemRenderer.h"
 
 using namespace sf;
 using namespace std;
 
-EntityManager em;
+shared_ptr<Scene> activeScene;
+shared_ptr<Scene> menuScene;
+shared_ptr<Scene> gameScene;
 vector<Entity*> ents;
 
 void Reset(){}
 
 void Load(){
-	em.list.push_back(shared_ptr<Entity>(new Player()));
-	for (int i = 0; i < 4; ++i) {
-		em.list.push_back(shared_ptr<Entity>(new Ghost()));
-		em.list[em.list.size() - 1]->setPosition(Vector2f(1000, 500));
-	}
+	// Load scene-local assets
+	menuScene.reset(new GameScene());
+	gameScene.reset(new MenuScene());
+	menuScene->Load();
+	gameScene->Load();
+	// Start on menu
+	activeScene = gameScene;
 }
 
 void Update(RenderWindow &window){
@@ -31,18 +38,20 @@ void Update(RenderWindow &window){
 			return;
 		}
 	}
-	em.Update(dt);
+	activeScene->Update(dt);
 	if (Keyboard::isKeyPressed(Keyboard::Escape)) {
 		window.close();
 	}
 }
 
 void Render(RenderWindow &window){
-	em.Render(window);
+	activeScene->Render();
+	Renderer::Render();
 }
 
 int main() {
 	RenderWindow window(VideoMode(1920, 1080), "PacMan");
+	Renderer::initialise(window);
 	Load();
 	while (window.isOpen()) {
 		window.clear();

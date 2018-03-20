@@ -7,6 +7,6 @@ namespace Renderer {
 
 	void Shutdown();
 	void Update(const double &dt);
-	void Queue(const sf::Drawable *s);
+	void queue(const sf::Drawable *s);
 	void Render();
 };

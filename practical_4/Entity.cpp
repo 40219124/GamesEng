@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include "SystemRenderer.h"
 using namespace std;
 using namespace sf;
 
@@ -12,6 +13,10 @@ void Entity::Update(const float dt) {
 	_shape->setPosition(_position);
 }
 
+void Entity::Render() {
+	Renderer::queue(_shape.get());
+}
+
 Entity::Entity(unique_ptr<Shape> s) : _shape(std::move(s)) {}
 
 void EntityManager::Update(const float dt) {
@@ -20,8 +25,8 @@ void EntityManager::Update(const float dt) {
 	}
 }
 
-void EntityManager::Render(RenderWindow &window) {
+void EntityManager::Render() {
 	for (shared_ptr<Entity> e : list) {
-		e->Render(window);
+		e->Render();
 	}
 }

@@ -10,5 +10,5 @@ private:
 public:
 	void Update(const float dt) override;
 	Ghost();
-	void Render(sf::RenderWindow &window) const override;
+	void Render() override;
 };

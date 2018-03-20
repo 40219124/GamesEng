@@ -5,7 +5,7 @@ using namespace std;
 
 void Ghost::Update(const float dt) {
 	Entity::Update(dt);
-	
+
 	_noGo -= dt;
 	if (_noGo <= 0.0f) {
 		Vector2f dir = Vector2f(0.0f, 0.0f);
@@ -24,6 +24,6 @@ Ghost::Ghost() : _speed(180.0f), Entity(make_unique<CircleShape>(20.0f)) {
 	_shape->setOrigin(Vector2f(25.0f, 25.0f));
 }
 
-void Ghost::Render(sf::RenderWindow &window)const {
-	window.draw(*_shape);
+void Ghost::Render() {
+	Entity::Render();
 }

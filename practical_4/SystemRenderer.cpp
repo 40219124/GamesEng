@@ -30,3 +30,5 @@ void Renderer::Render() {
 		sprites.pop();
 	}
 }
+
+void Renderer::queue(const sf::Drawable *s) { sprites.push(s); }
