@@ -7,6 +7,7 @@
 #include "Scene.h"
 #include "Pacman.h"
 #include "SystemRenderer.h"
+#include <ctime>
 
 using namespace sf;
 using namespace std;
@@ -19,13 +20,14 @@ vector<Entity*> ents;
 void Reset(){}
 
 void Load(){
+	srand(static_cast<unsigned int>(time(0)));
 	// Load scene-local assets
-	menuScene.reset(new GameScene());
-	gameScene.reset(new MenuScene());
+	menuScene.reset(new MenuScene());
+	gameScene.reset(new GameScene());
 	menuScene->Load();
 	gameScene->Load();
 	// Start on menu
-	activeScene = gameScene;
+	activeScene = menuScene;
 }
 
 void Update(RenderWindow &window){

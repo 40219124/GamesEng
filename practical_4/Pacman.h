@@ -7,10 +7,10 @@ extern std::shared_ptr<Scene> activeScene;
 
 class MenuScene : public Scene {
 private:
-	sf::Text test;
+	sf::Text text;
 
 public:
-	MenuScene();
+	MenuScene() = default;
 	void Update(const double dt) override;
 	void Render() override;
 	void Load() override;
