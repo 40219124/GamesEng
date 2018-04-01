@@ -2,8 +2,6 @@
 #include <iostream>
 #include "LevelSystem.h"
 #include "Entity.h"
-#include "Player.h"
-#include "Ghost.h"
 #include "Scene.h"
 #include "Pacman.h"
 #include "SystemRenderer.h"

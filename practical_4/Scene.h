@@ -1,5 +1,8 @@
 #pragma once
+#include "ecm.h"
 #include "Entity.h"
+#include <vector>
+#include <memory>
 
 class Scene {
 public:

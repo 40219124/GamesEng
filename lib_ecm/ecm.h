@@ -17,8 +17,8 @@ protected:
 	bool _forDeletion; // Is for deletion
 public:
 	Entity();
-	virtual ~Entity();
-	virtual void Update(const double dt);
+	virtual ~Entity() = default;
+	virtual void Update(const double &dt);
 	virtual void Render();
 
 	const sf::Vector2f &getPosition() const;
@@ -28,7 +28,7 @@ public:
 	void setRotation(float _rotation);
 	bool isAlive() const;
 	void setAlive(bool _alive);
-	void setForDelete();
+	void setForDelete(bool _forDelete);
 	bool isVisible() const;
 	void setVisible(bool _visible);
 
@@ -44,7 +44,7 @@ public:
 class Component {
 protected:
 	Entity *const _parent;
-	bool _fordeletion; // Should be removed
+	bool _forDeletion; // Should be removed
 	explicit Component(Entity *const p);
 
 public:
@@ -52,5 +52,5 @@ public:
 	bool forDeletion() const;
 	virtual void Update(double dt) = 0;
 	virtual void Render() = 0;
-	virtual ~Component();
+	virtual ~Component() = default;
 };
