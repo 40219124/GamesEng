@@ -50,7 +50,7 @@ protected:
 public:
 	Component() = delete;
 	bool forDeletion() const;
-	virtual void Update(double dt) = 0;
+	virtual void Update(const double &dt) = 0;
 	virtual void Render() = 0;
 	virtual ~Component() = default;
 };

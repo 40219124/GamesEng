@@ -11,7 +11,7 @@ private:
 
 public:
 	MenuScene() = default;
-	void Update(const double dt) override;
+	void Update(const double &dt) override;
 	void Render() override;
 	void Load() override;
 };
@@ -24,7 +24,7 @@ private:
 
 public:
 	GameScene() = default;
-	void Update(const double dt) override;
+	void Update(const double &dt) override;
 	void Render() override;
 	void Load() override;
 };

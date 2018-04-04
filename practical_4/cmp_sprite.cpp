@@ -5,7 +5,7 @@
 //	_sprite->setPosition(_parent->getPosition());
 //}
 
-void ShapeComponent::Update(const double dt) {
+void ShapeComponent::Update(const double &dt) {
 	_shape->setPosition(_parent->getPosition());
 }
 

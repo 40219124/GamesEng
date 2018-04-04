@@ -9,7 +9,7 @@ public:
 	ShapeComponent() = delete;
 	explicit ShapeComponent(Entity *p);
 
-	void Update(const double dt) override;
+	void Update(const double &dt) override;
 	void Render() override;
 
 	sf::Shape &getShape() const;

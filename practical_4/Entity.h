@@ -24,6 +24,6 @@
 //
 struct EntityManager {
 	std::vector<std::shared_ptr<Entity>> list;
-	void Update(const float dt);
+	void Update(const float &dt);
 	void Render();
 };

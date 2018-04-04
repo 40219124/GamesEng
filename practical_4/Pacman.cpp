@@ -2,6 +2,7 @@
 #include "ecm.h"
 #include "cmp_sprite.h"
 #include "SystemRenderer.h"
+#include "cmp_actor_movement.h"
 
 #define GHOSTS_COUNT 4
 
@@ -19,7 +20,7 @@ void MenuScene::Load() {
 	text.setPosition(1920.0f / 2.0f - text.getGlobalBounds().width / 2.0f, 1080.0f / 2.0f - text.getGlobalBounds().height / 2.0f);
 }
 
-void MenuScene::Update(const double dt) {
+void MenuScene::Update(const double &dt) {
 	Scene::Update(dt);
 	if (Keyboard::isKeyPressed(Keyboard::Space)) {
 		activeScene = gameScene;
@@ -39,6 +40,7 @@ void GameScene::Load() {
 	s->setShape<CircleShape>(12.0f);
 	s->getShape().setFillColor(Color::Yellow);
 	s->getShape().setOrigin(Vector2f(12.0f, 12.0f));
+	pl->addComponent<PlayerMovementComponent>();
 
 	_ents.list.push_back(pl);
 
@@ -64,7 +66,7 @@ void GameScene::Load() {
 	}*/
 }
 
-void GameScene::Update(const double dt) {
+void GameScene::Update(const double &dt) {
 	Scene::Update(dt);
 	if (Keyboard::isKeyPressed(Keyboard::Tab)) {
 		activeScene = menuScene;

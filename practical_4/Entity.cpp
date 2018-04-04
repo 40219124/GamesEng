@@ -19,7 +19,7 @@ using namespace sf;
 //
 //Entity::Entity(unique_ptr<Shape> s) : _shape(std::move(s)) {}
 
-void EntityManager::Update(const float dt) {
+void EntityManager::Update(const float &dt) {
 	for (shared_ptr<Entity> e : list) {
 		e->Update(dt);
 	}

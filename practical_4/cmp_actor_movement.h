@@ -7,7 +7,7 @@ protected:
 	float _speed;
 
 public:
-	explicit ActorMovementComponent(Entity* p);
+	explicit ActorMovementComponent(Entity *const p);
 	ActorMovementComponent() = delete;
 
 	float getSpeed() const;
@@ -16,6 +16,15 @@ public:
 	void move(const sf::Vector2f&);
 	void move(float x, float y);
 
-	void Render() override{}
 	void Update(const double &dt) override;
+	void Render() override{}
+};
+
+class PlayerMovementComponent : public ActorMovementComponent {
+public:
+	explicit PlayerMovementComponent(Entity *const p);
+	PlayerMovementComponent() = delete;
+
+	void Update(const double &dt) override;
+	void Render() override {}
 };

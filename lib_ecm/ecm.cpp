@@ -26,6 +26,10 @@ const Vector2f &Entity::getPosition() const{
 	return _position;
 }
 
+void Entity::setPosition(const Vector2f &_position) {
+	this->_position = _position;
+}
+
 bool Entity::forDeletion() const{
 	return _forDeletion;
 }
