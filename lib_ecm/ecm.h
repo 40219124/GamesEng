@@ -39,6 +39,31 @@ public:
 		_components.push_back(sp);
 		return sp;
 	}
+
+	template <typename T>
+	const std::vector<std::shared_ptr<T>> getComponents() const {
+		static_assert(std::is_base_of<Component, T>::value, "T != component.");
+		std::vector<std::shared_ptr<T>> ret;
+		for (const auto c : _components) {
+			if (typeid(*c) == typeid(T)) {
+				ret.push_back(std::dynamic_pointer_cast<T>(c));
+			}
+		}
+		return std::move(ret);
+	}
+
+	template <typename T>
+	const std::vector<std::shared_ptr<T>> getCompatibleComponent() {
+		static_assert(std::is_base_of<Component, T>::value, "T != component!");
+		std::vector<std::shared_ptr<T>> ret;
+		for (auto c : _components) {
+			auto dd = dynamic_cast<T*>(&(*c));
+			if (dd) {
+				ret.push_back(std::dynamic_pointer_cast<T>(c));
+			}
+		}
+		return ret;
+	}
 };
 
 class Component {

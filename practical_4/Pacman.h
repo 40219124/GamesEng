@@ -21,6 +21,8 @@ private:
 	sf::Text text;
 	sf::Clock scoreClock;
 	void respawn();
+	std::shared_ptr<Entity> _player;
+	std::vector<std::shared_ptr<Entity>> _ghosts;
 
 public:
 	GameScene() = default;

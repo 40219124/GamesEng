@@ -50,6 +50,7 @@ void Render(RenderWindow &window){
 }
 
 int main() {
+	srand(Time::Time().asMilliseconds());
 	RenderWindow window(VideoMode(1920, 1080), "PacMan");
 	Renderer::initialise(window);
 	Load();

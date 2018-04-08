@@ -17,12 +17,15 @@ public:
 	static void Render(sf::RenderWindow &window);
 	static sf::Color getColor(TILE t);
 	static void setColor(TILE t, sf::Color c);
+	// Find tiles of type
+	static std::vector<sf::Vector2ul> findTiles(TILE t);
 	// Get tile at grid coordinate
 	static TILE getTile(sf::Vector2ul);
 	// Get screenspace coordinate of tile
 	static sf::Vector2f getTilePosition(sf::Vector2ul);
 	// Get the tile at screenspace pos
 	static TILE getTileAt(sf::Vector2f);
+	static sf::Vector2f getTilePosNear(sf::Vector2f);
 	static size_t getWidth() { return _width; }
 	static size_t getHeight() { return _height; }
 

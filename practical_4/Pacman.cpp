@@ -3,6 +3,7 @@
 #include "cmp_sprite.h"
 #include "SystemRenderer.h"
 #include "cmp_actor_movement.h"
+#include "LevelSystem.h"
 
 #define GHOSTS_COUNT 4
 
@@ -34,6 +35,8 @@ void MenuScene::Render() {
 
 void GameScene::Load() {
 
+	ls::loadLevelFile("res/pacman.txt", 25.0f);
+
 	auto pl = make_shared<Entity>();
 
 	auto s = pl->addComponent<ShapeComponent>();
@@ -42,6 +45,7 @@ void GameScene::Load() {
 	s->getShape().setOrigin(Vector2f(12.0f, 12.0f));
 	pl->addComponent<PlayerMovementComponent>();
 
+	_player = pl;
 	_ents.list.push_back(pl);
 
 	const Color ghost_cols[]{ {208, 62, 250},	// red Blinky
@@ -56,14 +60,24 @@ void GameScene::Load() {
 		s->getShape().setFillColor(ghost_cols[i % 4]);
 		s->getShape().setOrigin(Vector2f(12.0f, 12.0f));
 
+		ghost->addComponent<EnemyAIComponent>();
+
 		_ents.list.push_back(ghost);
+		_ghosts.push_back(ghost);
 	}
 
-	/*gameScene->getEnts().push_back(shared_ptr<Entity>(new Player()));
-	for (int i = 0; i < 4; ++i) {
-		gameScene->getEnts().push_back(shared_ptr<Entity>(new Ghost()));
-		gameScene->getEnts()[gameScene->getEnts().size() - 1]->setPosition(Vector2f(1000, 500));
-	}*/
+	respawn();
+}
+
+void GameScene::respawn() {
+	_player->setPosition(ls::getTilePosition(ls::findTiles(ls::START)[0]));
+	_player->getCompatibleComponent<ActorMovementComponent>()[0]->setSpeed(150.0f);
+	auto ghost_spawns = ls::findTiles(ls::ENEMY);
+	for (auto& g : _ghosts) {
+		g->setPosition(ls::getTilePosition(ghost_spawns[rand() % ghost_spawns.size()]));
+		g->getCompatibleComponent<ActorMovementComponent>()[0]->setSpeed(100.0f);
+	}
+
 }
 
 void GameScene::Update(const double &dt) {
@@ -71,8 +85,14 @@ void GameScene::Update(const double &dt) {
 	if (Keyboard::isKeyPressed(Keyboard::Tab)) {
 		activeScene = menuScene;
 	}
+	for (auto& g : _ghosts) {
+		if (length(g->getPosition() - _player->getPosition()) < 25.0f) {
+			respawn();
+		}
+	}
 }
 
 void GameScene::Render() {
+	ls::Render(Renderer::getWindow());
 	Scene::Render();
 }

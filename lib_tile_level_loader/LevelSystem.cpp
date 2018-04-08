@@ -30,6 +30,17 @@ void LevelSystem::setColor(LevelSystem::TILE t, Color c) {
 	_colors.insert_or_assign(t, c);
 }
 
+std::vector<sf::Vector2ul> LevelSystem::findTiles(TILE t)
+{
+	vector<Vector2ul> out;
+	for (int i = 0; i < _width * _height; ++i) {
+		if (_tiles[i] == t) {
+			out.push_back(Vector2ul(i%_width, i / _width));
+		}
+	}
+	return out;
+}
+
 void LevelSystem::loadLevelFile(const string& path, float tileSize) {
 	_tileSize = tileSize;
 	size_t w = 0, h = 0;
@@ -93,10 +104,13 @@ void LevelSystem::loadLevelFile(const string& path, float tileSize) {
 
 void LevelSystem::buildSprites() {
 	_sprites.clear();
+	float shift = _tileSize / 2.0f;
 	for (size_t y = 0; y < ls::_height; ++y) {
 		for (size_t x = 0; x < ls::_width; ++x) {
 			auto s = make_unique<RectangleShape>();
-			s->setPosition(getTilePosition({ x, y }));
+			Vector2f pos = getTilePosition({ x, y });
+			s->setOrigin(Vector2f(shift, shift));
+			s->setPosition(Vector2f(pos.x, pos.y));
 			s->setSize(Vector2f(_tileSize, _tileSize));
 			s->setFillColor(getColor(getTile({ x, y })));
 			_sprites.push_back(move(s));
@@ -105,7 +119,10 @@ void LevelSystem::buildSprites() {
 }
 
 Vector2f LevelSystem::getTilePosition(Vector2ul p) {
-	return (Vector2f(p.x, p.y) * _tileSize);
+	return (Vector2f(p.x + 0.5f, p.y + 0.5f) * _tileSize) + _offset;
+	/*auto x = _sprites[p.x + p.y * _width].get();
+	return x->getPosition();*/
+	//return (Vector2f(p.x, p.y) * _tileSize);
 }
 
 LevelSystem::TILE LevelSystem::getTile(Vector2ul p) {
@@ -120,7 +137,15 @@ LevelSystem::TILE LevelSystem::getTileAt(Vector2f v) {
 	if (a.x < 0 || a.y < 0) {
 		throw string("Tile out of range.");
 	}
-	return getTile(Vector2ul((v - _offset) / (_tileSize)));
+	return getTile(Vector2ul(a / (_tileSize)));
+}
+
+sf::Vector2f LevelSystem::getTilePosNear(Vector2f v) {
+	auto a = v - _offset;
+	if (a.x < 0 || a.y < 0) {
+		throw string("Tile out of range.");
+	}
+	return getTilePosition(Vector2ul(a / (_tileSize)));
 }
 
 void LevelSystem::Render(RenderWindow &window) {
