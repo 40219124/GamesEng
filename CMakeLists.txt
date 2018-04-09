@@ -92,4 +92,8 @@ add_dependencies(PRACTICAL_4_PACMAN copy_resources)
 file(GLOB_RECURSE SOURCES practical_5/*.cpp practical_5/*.h)
 add_executable(PRACTICAL_5_PHYSICS ${SOURCES})
 target_include_directories(PRACTICAL_5_PHYSICS SYSTEM PRIVATE ${SFML_INCS} ${B2D_INCS})
+target_link_libraries(PRACTICAL_5_PHYSICS Box2D sfml-graphics)
+#set_target_properties(PRACTICAL_5_PHYSICS PROPERTIES 
+#	VS_DEBUGGER_WORKING_DIRECTORY
+#	${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$(Configuration))
 set(EXECUTABLES ${EXECUTABLES} PRACTICAL_5_PHYSICS)
