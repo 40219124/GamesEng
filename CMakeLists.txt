@@ -14,6 +14,11 @@ add_subdirectory("lib/sfml")
 set(SFML_INCS "lib/sfml/include")
 link_directories("${CMAKE_BINARY_DIR}/lib/sfml/lib")
 
+#### Box2D physics library ####
+add_subdirectory("lib/b2d/Box2D")
+set(B2D_INCS "lib/b2d/Box2D/")
+link_directories("${CMAKE_BINARY_DIR}/lib/sfml/lib")
+
 #### Maths interface library ####
 add_library(lib_maths INTERFACE)
 target_sources(lib_maths INTERFACE "${CMAKE_SOURCE_DIR}/lib_maths/maths.h")
@@ -82,3 +87,9 @@ set_target_properties(PRACTICAL_4_PACMAN PROPERTIES
 	${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$(Configuration)
 )
 add_dependencies(PRACTICAL_4_PACMAN copy_resources)
+
+#### Physics ####
+file(GLOB_RECURSE SOURCES practical_5/*.cpp practical_5/*.h)
+add_executable(PRACTICAL_5_PHYSICS ${SOURCES})
+target_include_directories(PRACTICAL_5_PHYSICS SYSTEM PRIVATE ${SFML_INCS} ${B2D_INCS})
+set(EXECUTABLES ${EXECUTABLES} PRACTICAL_5_PHYSICS)
